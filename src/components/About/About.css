@@ -1,0 +1,43 @@
+.about{
+    margin: 2rem 1rem;
+    letter-spacing: 0.1em;
+    
+}
+.about-intro{
+    word-spacing: 1em;
+    line-height: 1em;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 10rem;
+    font-family: 'Orbitron', sans-serif;
+}
+.about-subintro{
+    word-spacing: 1em;
+    line-height: 1em;
+    text-align: center;
+    font-size: 1.25em;
+    font-family: 'Orbitron', sans-serif;
+}
+.credit{
+    text-align: center;
+    line-height: 2em;
+    font-size: 1.5em;
+    font-family: 'Orbitron', sans-serif;
+}
+.about-title,
+.about-intro,
+.about-subintro,
+.text-center {
+  overflow: hidden; /* Ensures that the text doesn't overflow outside the container */
+  white-space: wrap; /* Keeps the text on a single line */
+  animation: typewriter 4s steps(30) 1s 1 normal both;
+}
+
+@keyframes typewriter {
+  from {
+    width: 0; /* Starts with no width */
+  }
+  to {
+    width: 100%; /* Gradually increases the width to reveal the full text */
+  }
+}
