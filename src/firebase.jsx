@@ -1,17 +1,17 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import{getAuth} from "firebase/auth";
-import {getFirestore} from "firebase/firestore";
-import {getStorage} from "firebase/storage";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB6VlbwpdbFNJ7wrJG_vJKcAXG5IYfrKLI",
-  authDomain: "resume-builder-f4199.firebaseapp.com",
-  projectId: "resume-builder-f4199",
-  storageBucket: "resume-builder-f4199.appspot.com",
-  messagingSenderId: "340239128556",
-  appId: "1:340239128556:web:58d335b1a929005d07d2c9",
-  measurementId: "G-SSET9K2M08"
+  apiKey: "AIzaSyD_WnwOkGwoDanhxSg7ilII7M1sBplmkVs",
+  authDomain: "coder-212ac.firebaseapp.com",
+  projectId: "coder-212ac",
+  storageBucket: "coder-212ac.appspot.com",
+  messagingSenderId: "640195937724",
+  appId: "1:640195937724:web:e5641e6fd4ba3dcf47d7b9",
+  measurementId: "G-2Z3HWCS3GL",
 };
 
 // Initialize Firebase
@@ -20,4 +20,4 @@ const auth = getAuth();
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-export {app, auth, db, storage};
+export { app, auth, db, storage };
