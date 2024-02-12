@@ -6,12 +6,12 @@ import "./Home.css";
 
 const Home = () => {
   return (
-    <div className="Home">
-      <img className="background-img" alt="background" src={background} />
+    <div className='Home'>
+      <img className='background-img' alt='background' src={background} />
 
-      <h1 className="heading">30 DAYS DSA CHEATSHEET</h1>
+      <h1 className='heading'>Algo-Maze</h1>
 
-      <h2 className="subheading">
+      <h2 className='subheading'>
         <Typewriter
           options={{
             strings: [
