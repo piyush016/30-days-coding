@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TableRow,
   TableCell,
   Checkbox,
   IconButton,
-  InputBase,
+  TextField,
 } from "@mui/material";
-import { BiEdit } from "react-icons/bi";
-import { MdFileDownloadDone } from "react-icons/md";
+import { MdRocket } from "react-icons/md";
 import { styled } from "@mui/material/styles";
 
 const StyledTableRow = styled(TableRow)`
@@ -24,61 +23,63 @@ const RowQues = ({
   note,
   status,
   onStatusChange,
-  onNoteClick,
-  onNoteChange,
   onNoteSave,
-  isEditing,
-  noteValue,
 }) => {
+  const [isChecked, setIsChecked] = useState(status);
+  const [isEditing, setIsEditing] = useState(false);
+  const [noteValue, setNoteValue] = useState(note);
+
+  const handleCheckboxChange = () => {
+    const newStatus = !isChecked;
+    setIsChecked(newStatus);
+    onStatusChange(id, newStatus);
+  };
+
+  const handleNoteClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleNoteBlur = () => {
+    setIsEditing(false);
+    onNoteSave(id, noteValue);
+  };
+
   return (
     <StyledTableRow key={id}>
-      <TableCell align="center">{serialNo}</TableCell>
-      <TableCell>{ques}</TableCell>
-      <TableCell align="center">
-        <IconButton
-          aria-label="download"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <MdFileDownloadDone />
-        </IconButton>
-      </TableCell>
-      <TableCell align="center">
+      <TableCell align='center'>
         <Checkbox
-          checked={status}
-          onChange={onStatusChange}
-          color="primary"
+          checked={isChecked}
+          onChange={handleCheckboxChange}
+          color='primary'
+          inputProps={{ "aria-label": "controlled" }}
         />
       </TableCell>
-      <TableCell align="center">
+      <TableCell>{ques}</TableCell>
+      <TableCell align='center'>
+        <a href={url} target='_blank' rel='noopener noreferrer'>
+          <IconButton aria-label='rocket'>
+            <MdRocket />
+          </IconButton>
+        </a>
+      </TableCell>
+      <TableCell align='center'>
         {isEditing ? (
-          <div>
-            <InputBase
-              multiline
+          <TextField
+            fullWidth
+            value={noteValue}
+            onChange={(e) => setNoteValue(e.target.value)}
+            onBlur={handleNoteBlur}
+          />
+        ) : (
+          <div onClick={handleNoteClick}>
+            <TextField
               fullWidth
               value={noteValue}
-              onChange={onNoteChange}
-              autoFocus
+              InputProps={{
+                readOnly: true,
+                disableUnderline: true,
+              }}
             />
-            <IconButton
-              aria-label="save"
-              size="small"
-              onClick={onNoteSave}
-            >
-              <MdFileDownloadDone />
-            </IconButton>
-          </div>
-        ) : (
-          <div>
-            {note}
-            <IconButton
-              aria-label="edit"
-              size="small"
-              onClick={onNoteClick}
-            >
-              <BiEdit />
-            </IconButton>
           </div>
         )}
       </TableCell>
