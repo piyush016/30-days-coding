@@ -44,7 +44,7 @@ const Login = () => {
       .then((res) => {
         setShowAlert(true);
         setLoginSuccess(true);
-        navigate("/");
+        navigate("/topic");
       })
       .catch((err) => {
         setShowAlert(true);
@@ -104,9 +104,9 @@ const Login = () => {
   }, [showAlert, loginSuccess, errorMessage]);
 
   return (
-    <form className="form-login" onSubmit={handleFormSubmit}>
+    <form className='form-login' onSubmit={handleFormSubmit}>
       <Box
-        className="container"
+        className='container'
         sx={{
           maxWidth: "500px",
           mx: "auto",
@@ -118,36 +118,36 @@ const Login = () => {
           gap: 4,
         }}
       >
-        <Typography variant="h3">
+        <Typography variant='h3'>
           <b>Have an account?</b>
         </Typography>
-        <Typography variant="h4" style={{ marginBottom: 20 }}>
+        <Typography variant='h4' style={{ marginBottom: 20 }}>
           Log in to continue!
         </Typography>
 
         <IconTextField
           sx={{ color: "white" }}
-          label="Email ID"
-          type="email"
-          placeholder="Enter your email."
+          label='Email ID'
+          type='email'
+          placeholder='Enter your email.'
           iconStart={<AccountCircle sx={{ color: "#fa2185" }} />}
           required
-          autoComplete="off"
+          autoComplete='off'
           value={values.email}
           onChange={handleChange("email")}
         />
 
         <IconTextField
-          label="Password"
+          label='Password'
           type={values.showPassword ? "text" : "password"}
-          placeholder="Enter your password."
+          placeholder='Enter your password.'
           onChange={handleChange("password")}
           iconStart={<Key sx={{ color: "#fa2185" }} />}
           value={values.password}
           required
           iconEnd={
             <IconButton
-              aria-label="toggle password visibility"
+              aria-label='toggle password visibility'
               onClick={handleClickShowPassword}
               onMouseDown={handleMouseDownPassword}
             >
@@ -160,18 +160,18 @@ const Login = () => {
           }
         />
         <Typography
-          variant="body2"
+          variant='body2'
           style={{ color: "#fb9701", fontWeight: "bold" }}
         >
-          <Link to="/forgot-password">Forgot Password?</Link>
+          <Link to='/forgot-password'>Forgot Password?</Link>
         </Typography>
 
-        <div className="panel pink">
-          <button className="btn2">Login</button>
+        <div className='panel pink'>
+          <button className='btn2'>Login</button>
         </div>
-        <div className="panel borderless">
-          <Link to="/signup">
-            <button className="btn2">Don't have an account?</button>
+        <div className='panel borderless'>
+          <Link to='/signup'>
+            <button className='btn2'>Don't have an account?</button>
           </Link>
         </div>
       </Box>

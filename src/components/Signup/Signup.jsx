@@ -43,14 +43,14 @@ const Signup = () => {
 
   const handleSignUp = async () => {
     console.log("All the details:", values);
-  
+
     const newUser = {
       name: values.name,
       email: values.email,
       phoneNumber: values.phoneNumber,
       college: values.college,
     };
-  
+
     try {
       const res = await createUserWithEmailAndPassword(
         auth,
@@ -60,14 +60,12 @@ const Signup = () => {
       const user = res.user;
       // Set the document ID as the user's email
       await setDoc(doc(db, "users", user.uid), newUser);
-  
       alertSignupSuccess();
-      navigate("/");
+      navigate("/topic");
     } catch (err) {
       alertSignupError(err.message); // Display the specific error message from Firebase
     }
   };
-  
 
   const handleClickShowPassword = () => {
     setValues({
@@ -97,7 +95,7 @@ const Signup = () => {
   const alertSignupError = (err) => {
     const errorMessage =
       typeof err === "string" ? err : "Sign up failed. Please try again.";
-  
+
     toast.error(errorMessage, {
       position: "top-left",
       autoClose: 3000,
@@ -109,12 +107,11 @@ const Signup = () => {
       theme: "colored",
     });
   };
-  
 
   return (
-    <form className="form-signup" onSubmit={handleFormSubmit}>
+    <form className='form-signup' onSubmit={handleFormSubmit}>
       <Box
-        className="container"
+        className='container'
         sx={{
           mx: "auto",
           my: 10,
@@ -125,41 +122,41 @@ const Signup = () => {
           gap: 3,
         }}
       >
-        <Typography variant="h3">
+        <Typography variant='h3'>
           <b>Don't have an account?</b>
         </Typography>
-        <Typography variant="h4" style={{ marginBottom: 20 }}>
+        <Typography variant='h4' style={{ marginBottom: 20 }}>
           Sign up with us!
         </Typography>
 
         <IconTextField
           sx={{ color: "white" }}
-          label="Name"
-          placeholder="Name"
-          type="text"
+          label='Name'
+          placeholder='Name'
+          type='text'
           iconStart={<PersonIcon sx={{ color: "#fa2185" }} />}
           value={values.name}
           onChange={handleChange("name")}
         />
         <IconTextField
           sx={{ color: "white" }}
-          label="Email ID"
-          type="email"
-          placeholder="Email"
+          label='Email ID'
+          type='email'
+          placeholder='Email'
           iconStart={<EmailIcon sx={{ color: "#fa2185" }} />}
           value={values.email}
           onChange={handleChange("email")}
         />
         <IconTextField
-          label="Password"
+          label='Password'
           type={values.showPassword ? "text" : "password"}
-          placeholder="Password"
+          placeholder='Password'
           value={values.password}
           onChange={handleChange("password")}
           iconStart={<Key sx={{ color: "#fa2185" }} />}
           iconEnd={
             <IconButton
-              aria-label="toggle password visibility"
+              aria-label='toggle password visibility'
               onClick={handleClickShowPassword}
               onMouseDown={handleMouseDownPassword}
             >
@@ -172,39 +169,39 @@ const Signup = () => {
           }
         />
         <IconTextField
-          label="Confirm Password"
-          type="password"
+          label='Confirm Password'
+          type='password'
           value={values.confirmPassword}
-          placeholder="Confirm Password"
+          placeholder='Confirm Password'
           onChange={handleChange("confirmPassword")}
           iconStart={<Key sx={{ color: "#fa2185" }} />}
         />
-       
+
         <IconTextField
           sx={{ color: "white" }}
-          label="Phone Number"
-          placeholder="Phone Number"
-          type="text"
+          label='Phone Number'
+          placeholder='Phone Number'
+          type='text'
           value={values.phoneNumber}
           iconStart={<PhoneIphoneIcon sx={{ color: "#fa2185" }} />}
           onChange={handleChange("phoneNumber")}
         />
         <IconTextField
           sx={{ color: "white" }}
-          label="College"
-          placeholder="College Name"
-          type="text"
+          label='College'
+          placeholder='College Name'
+          type='text'
           value={values.college}
           iconStart={<SchoolIcon sx={{ color: "#fa2185" }} />}
           onChange={handleChange("college")}
         />
 
-        <div className="panel pink">
-          <button className="btn2">Sign Up</button>
+        <div className='panel pink'>
+          <button className='btn2'>Sign Up</button>
         </div>
-        <div className="panel borderless">
-          <Link to="/login">
-            <button className="btn2">Already have an account?</button>
+        <div className='panel borderless'>
+          <Link to='/login'>
+            <button className='btn2'>Already have an account?</button>
           </Link>
         </div>
       </Box>
