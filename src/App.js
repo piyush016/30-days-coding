@@ -61,7 +61,7 @@ function ProtectedRoute({ element, path }) {
     );
   }
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn && !showLoginDialog) {
     return (
       <>
         <div
