@@ -7,9 +7,11 @@
   overflow: hidden;
   background: #ecfcfc;
   padding: 20px;
+  height: 300px;
   box-sizing: border-box;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
+
 .testimotionals .card .layer {
   z-index: 1;
   position: absolute;
@@ -25,10 +27,12 @@
   z-index: 2;
   position: relative;
 }
+
 .testimotionals .card .content h2 {
   text-align: center;
   font-family: "Ribeye Marrow", cursive;
 }
+
 .testimotionals .card .content p {
   font-size: 1.2em;
   font-weight: 600;
@@ -41,16 +45,21 @@
 .testimotionals .card:hover .layer {
   top: 0;
 }
+
 .testimotionals .card:hover h2 {
   color: white;
 }
+
 .testimotionals .card:hover p {
   color: #fff10a;
 }
-.button-cont{
- display: flex;
- flex-direction: row;
+
+.button-cont {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
 }
+
 /* Buttons */
 
 button {
@@ -64,6 +73,7 @@ button {
   transition: all 0.3s ease-in-out;
   text-align: center;
 }
+
 .pink button:before,
 .pink button:after,
 .blue button:before,
@@ -78,6 +88,7 @@ button {
   height: 1em;
   transition: all 0.3s ease-in-out;
 }
+
 .pink button:before,
 .blue button:before {
   top: -6px;
@@ -85,12 +96,14 @@ button {
   border-width: 2px 0 0 2px;
   z-index: 5;
 }
+
 .pink button:after,
 .blue button:after {
   bottom: -6px;
   right: -6px;
   border-width: 0 2px 2px 0;
 }
+
 .pink button:hover:before,
 .pink button:hover:after,
 .blue button:hover:before,
@@ -104,14 +117,17 @@ button {
   color: #eb1777;
   border-color: #eb1777;
 }
+
 .pink button:before,
 .pink button:after {
   border-color: #eb1777;
 }
+
 .pink button:hover:before,
 .pink button:hover:after {
   border-color: #eb1777;
 }
+
 .pink button:hover {
   color: #fff;
   background-color: #eb1777;
@@ -122,10 +138,12 @@ button {
   color: #3bb4e5;
   border-color: #3bb4e5;
 }
+
 .blue button:before,
 .blue button:after {
   border-color: #3bb4e5;
 }
+
 .blue button:hover:before,
 .blue button:hover:after {
   width: calc(100% + 12px);
@@ -133,6 +151,7 @@ button {
   border-color: #3bb4e5;
   transform: rotateY(180deg);
 }
+
 .blue :hover {
   color: #3bb4e5;
   background-color: transparent;
