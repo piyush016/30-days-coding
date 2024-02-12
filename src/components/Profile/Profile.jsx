@@ -1,5 +1,21 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Avatar,
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { toast } from "react-toastify";
+import LogoutIcon from "@mui/icons-material/Logout";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { auth, db, storage } from "../../firebase";
 import { setDoc, doc, onSnapshot, deleteDoc } from "firebase/firestore";
@@ -9,18 +25,6 @@ import {
   uploadBytes,
   deleteObject,
 } from "firebase/storage";
-import {
-  Typography,
-  TextField,
-  Button,
-  Box,
-  Avatar,
-  CircularProgress,
-} from "@mui/material";
-import { toast } from "react-toastify";
-import LogoutIcon from "@mui/icons-material/Logout";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 const Profile = ({ userId }) => {
   const navigate = useNavigate();
@@ -35,6 +39,8 @@ const Profile = ({ userId }) => {
   });
   const [uploading, setUploading] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   useEffect(() => {
     // Retrieve user data from Firestore database
     const userDocRef = doc(db, "users", userId);
@@ -113,26 +119,26 @@ const Profile = ({ userId }) => {
   };
 
   const handleDeleteAccount = async () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete your account?"
-    );
+    setDeleteDialogOpen(true);
+  };
 
-    if (confirmDelete) {
-      try {
-        // Delete user document from Firestore
-        const userDocRef = doc(db, "users", userId);
-        await deleteDoc(userDocRef);
+  const handleDeleteConfirmed = async () => {
+    setDeleteDialogOpen(false);
 
-        // Delete user authentication record
-        const user = auth.currentUser;
-        await user.delete();
+    try {
+      // Delete user document from Firestore
+      const userDocRef = doc(db, "users", userId);
+      await deleteDoc(userDocRef);
 
-        alertSuccess("Account Deleted Successfully!");
-        navigate("/");
-      } catch (error) {
-        console.error("Error deleting account:", error);
-        alertError("Failed to delete account. Please try again.");
-      }
+      // Delete user authentication record
+      const user = auth.currentUser;
+      await user.delete();
+
+      alertSuccess("Account Deleted Successfully!");
+      navigate("/");
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      alertError("Failed to delete account. Please try again.");
     }
   };
 
@@ -169,9 +175,9 @@ const Profile = ({ userId }) => {
   };
 
   return (
-    <form className="form-profile" onSubmit={handleSubmit}>
+    <form className='form-profile' onSubmit={handleSubmit}>
       <Box
-        className="container"
+        className='container'
         sx={{
           position: "relative",
           maxWidth: "700px",
@@ -184,8 +190,8 @@ const Profile = ({ userId }) => {
           gap: 4,
         }}
       >
-        <Box autoComplete="off">
-          <Typography variant="h3" sx={{ marginBottom: 3 }}>
+        <Box autoComplete='off'>
+          <Typography variant='h3' sx={{ marginBottom: 3 }}>
             <b>Profile</b>
           </Typography>
 
@@ -197,7 +203,7 @@ const Profile = ({ userId }) => {
               m: 1,
               zIndex: 1,
             }}
-            variant="contained"
+            variant='contained'
             onClick={logout}
           >
             <LogoutIcon />
@@ -208,7 +214,7 @@ const Profile = ({ userId }) => {
               <CircularProgress
                 size={"6rem"}
                 thickness={2.6}
-                color="success"
+                color='success'
                 sx={{ marginTop: 4, marginBottom: 2 }}
               />
             ) : (
@@ -225,17 +231,17 @@ const Profile = ({ userId }) => {
             )}
           </div>
           <div style={{ display: "flex", justifyContent: "center", gap: 20 }}>
-            <label htmlFor="upload-profile-pic">
+            <label htmlFor='upload-profile-pic'>
               <input
-                accept="image/*"
-                id="upload-profile-pic"
-                type="file"
+                accept='image/*'
+                id='upload-profile-pic'
+                type='file'
                 style={{ display: "none" }}
                 onChange={handleFileUpload}
               />
               <Button
-                variant="contained"
-                component="span"
+                variant='contained'
+                component='span'
                 onClick={handleFileUpload}
                 startIcon={<CloudUploadIcon />}
               >
@@ -245,9 +251,9 @@ const Profile = ({ userId }) => {
 
             {profilePicture && (
               <Button
-                variant="contained"
-                color="error"
-                component="span"
+                variant='contained'
+                color='error'
+                component='span'
                 onClick={handleDeleteProfilePicture}
                 startIcon={<DeleteIcon />}
               >
@@ -265,38 +271,38 @@ const Profile = ({ userId }) => {
             }}
           >
             <TextField
-              label="Email"
-              name="email"
+              label='Email'
+              name='email'
               value={formValues.email}
               onChange={handleFormChange}
               disabled={!editMode}
             />
             <TextField
-              label="Name"
-              name="name"
+              label='Name'
+              name='name'
               value={formValues.name}
               onChange={handleFormChange}
               disabled={!editMode}
             />
             <TextField
-              label="Date of Birth"
-              name="dob"
-              type="date"
+              label='Date of Birth'
+              name='dob'
+              type='date'
               value={formValues.dob}
               onChange={handleFormChange}
               disabled={!editMode}
             />
             <TextField
-              label="Phone Number"
-              name="phoneNumber"
-              type="tel"
+              label='Phone Number'
+              name='phoneNumber'
+              type='tel'
               value={formValues.phoneNumber}
               onChange={handleFormChange}
               disabled={!editMode}
             />
             <TextField
-              label="College"
-              name="college"
+              label='College'
+              name='college'
               value={formValues.college}
               onChange={handleFormChange}
               disabled={!editMode}
@@ -310,15 +316,15 @@ const Profile = ({ userId }) => {
               }}
             >
               <Button
-                variant="contained"
+                variant='contained'
                 color={editMode ? "success" : "primary"}
-                type="submit"
+                type='submit'
               >
                 {editMode ? "Save" : "Edit Profile"}
               </Button>
               {editMode && (
                 <Button
-                  variant="outlined"
+                  variant='outlined'
                   onClick={handleEditMode}
                   sx={{ mt: "0.5rem" }}
                 >
@@ -327,8 +333,8 @@ const Profile = ({ userId }) => {
               )}
 
               <Button
-                variant="outlined"
-                color="error"
+                variant='outlined'
+                color='error'
                 onClick={handleDeleteAccount}
                 sx={{ mt: "1rem" }}
               >
@@ -338,6 +344,23 @@ const Profile = ({ userId }) => {
           </Box>
         </Box>
       </Box>
+
+      {/* Delete Account Dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
+        <DialogTitle>Delete Account</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to delete your account?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleDeleteConfirmed} color='error'>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </form>
   );
 };
