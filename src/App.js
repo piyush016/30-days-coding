@@ -137,7 +137,11 @@ function App() {
         <Route path='/topic' element={<ProtectedRoute element={<Topic />} />} />
         <Route
           path='/report-problem'
-          element={<ProtectedRoute element={<ReportProblem />} />}
+          element={
+            <ProtectedRoute
+              element={<ReportProblem user={auth.currentUser} />}
+            />
+          }
         />
       </Routes>
       <NavigationBar isLoggedIn={isLoggedIn} />
