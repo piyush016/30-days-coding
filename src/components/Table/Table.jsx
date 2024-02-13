@@ -28,81 +28,97 @@ const TableView = ({ topic }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let filteredQuestions = [];
-    const fetchQuestions = async () => {
+    const fetchQuestionsAndUserData = async () => {
       try {
         setLoading(true);
+
+        // Fetch questions
         const q = query(collection(db, "questions"));
         const querySnapshot = await getDocs(q);
         const questions = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        filteredQuestions = questions.filter(
+
+        // Filter questions based on the topic
+        const filteredQuestions = questions.filter(
           (question) => question.dsatopic === topic
         );
-        fetchUserData(filteredQuestions); // Call fetchUserData after setting filteredData
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching questions:", error);
-        setLoading(false);
-      }
-    };
 
-    const fetchUserData = async (filteredQuestions) => {
-      try {
+        // Set filtered questions
+        setFilteredData(filteredQuestions);
+
+        // Fetch user data
         const userQ = query(collection(db, "users"));
         const userQuerySnapshot = await getDocs(userQ);
-        const userData = userQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))[0];
 
-        // Fetch questions relevant to the current topic
-        const filteredQuestionIds = filteredQuestions.map(
-          (question) => question.id
-        );
-        const relevantQuestions = userData.questions.filter((q) =>
-          filteredQuestionIds.includes(q.id)
-        );
+        // Check if userQuerySnapshot.docs array is not empty
+        if (userQuerySnapshot.docs.length > 0) {
+          const userData = userQuerySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))[0];
 
-        // Merge status of relevant questions with filteredData
-        const updatedQuestions = filteredQuestions.map((question) => {
-          const userQuestion = relevantQuestions.find(
-            (q) => q.id === question.id
-          );
-          return {
+          // Update status and notes
+          const updatedQuestions = filteredQuestions.map((question) => {
+            const userQuestion = userData.questions.find(
+              (q) => q.id === question.id
+            );
+            return {
+              ...question,
+              status: userQuestion ? userQuestion.status : false,
+              note: userQuestion ? userQuestion.note : "",
+            };
+          });
+
+          // Set filtered data with updated status and notes
+          setFilteredData(updatedQuestions);
+        } else {
+          // If no user data, set status to false and notes to empty string
+          const updatedQuestions = filteredQuestions.map((question) => ({
             ...question,
-            status: userQuestion ? userQuestion.status : false,
-            note: userQuestion ? userQuestion.note : "", // Add note if available
-          };
-        });
+            status: false,
+            note: "",
+          }));
+          setFilteredData(updatedQuestions);
+        }
 
-        setFilteredData(updatedQuestions);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching data:", error);
+        setLoading(false);
       }
     };
 
-    fetchQuestions();
+    fetchQuestionsAndUserData();
   }, [topic]);
 
+  // Function to handle status change
   // Function to handle status change
   const handleStatusChange = async (id, newStatus) => {
     try {
       const userQ = query(collection(db, "users"));
       const userQuerySnapshot = await getDocs(userQ);
-      const userData = userQuerySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }))[0];
 
-      const userDocRef = userQuerySnapshot.docs[0].ref;
-      const questionIndex = userData.questions.findIndex((q) => q.id === id);
+      if (!userQuerySnapshot.empty) {
+        const userData = userQuerySnapshot.docs[0].data();
+        const userDocRef = userQuerySnapshot.docs[0].ref;
 
-      if (questionIndex !== -1) {
-        userData.questions[questionIndex].status = newStatus;
+        // Initialize the questions array if it's not already initialized
+        userData.questions = userData.questions || [];
+
+        const questionIndex = userData.questions.findIndex((q) => q.id === id);
+
+        if (questionIndex !== -1) {
+          userData.questions[questionIndex].status = newStatus;
+        } else {
+          // If the question does not exist in user data, create a new entry
+          userData.questions.push({ id, status: newStatus, note: "" });
+        }
+
         await setDoc(userDocRef, { questions: userData.questions });
+      } else {
+        console.log("User data document does not exist.");
       }
     } catch (error) {
       console.error("Error updating status:", error);
@@ -114,17 +130,26 @@ const TableView = ({ topic }) => {
     try {
       const userQ = query(collection(db, "users"));
       const userQuerySnapshot = await getDocs(userQ);
-      const userData = userQuerySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }))[0];
 
-      const userDocRef = userQuerySnapshot.docs[0].ref;
-      const questionIndex = userData.questions.findIndex((q) => q.id === id);
+      if (!userQuerySnapshot.empty) {
+        const userData = userQuerySnapshot.docs[0].data();
+        const userDocRef = userQuerySnapshot.docs[0].ref;
 
-      if (questionIndex !== -1) {
-        userData.questions[questionIndex].note = newNote;
+        // Initialize the questions array if it's not already initialized
+        userData.questions = userData.questions || [];
+
+        const questionIndex = userData.questions.findIndex((q) => q.id === id);
+
+        if (questionIndex !== -1) {
+          userData.questions[questionIndex].note = newNote;
+        } else {
+          // If the question does not exist in user data, create a new entry
+          userData.questions.push({ id, status: false, note: newNote });
+        }
+
         await setDoc(userDocRef, { questions: userData.questions });
+      } else {
+        console.log("User data document does not exist.");
       }
     } catch (error) {
       console.error("Error updating note:", error);
