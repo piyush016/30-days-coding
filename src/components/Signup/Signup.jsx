@@ -14,6 +14,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase";
 import { setDoc, doc } from "firebase/firestore";
 import IconTextField from "../IconTextField/IconTextField";
+//import { dsatopics } from "./data.js";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -42,8 +43,6 @@ const Signup = () => {
   };
 
   const handleSignUp = async () => {
-    console.log("All the details:", values);
-
     const newUser = {
       name: values.name,
       email: values.email,
@@ -60,6 +59,22 @@ const Signup = () => {
       const user = res.user;
       // Set the document ID as the user's email
       await setDoc(doc(db, "users", user.uid), newUser);
+
+      // const questionsCollection = collection(db, "questions");
+      // dsatopics.forEach(async (question) => {
+      //   const newQuestionRef = await addDoc(questionsCollection, {
+      //     dsatopic: question.dsatopic,
+      //     problem: question.problem,
+      //     url: question.URL,
+      //   });
+      //   console.log("New question ID:", newQuestionRef.id);
+      //   await setDoc(
+      //     newQuestionRef,
+      //     { id: newQuestionRef.id },
+      //     { merge: true }
+      //   );
+      // });
+
       alertSignupSuccess();
       navigate("/topic");
     } catch (err) {
