@@ -15,8 +15,9 @@ import About from "./components/About/About";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
-import Profile from "./components/Profile/Profile"; // Modified import
+import Profile from "./components/Profile/Profile";
 import Topic from "./components/Topic/Topic";
+import TableView from "./components/Table/Table";
 import ReportProblem from "./components/ReportProblem/ReportProblem";
 import { auth } from "./firebase";
 import {
@@ -135,6 +136,14 @@ function App() {
           element={<Profile userId={auth.currentUser?.uid} />}
         />
         <Route path='/topic' element={<ProtectedRoute element={<Topic />} />} />
+        <Route
+          path='/topic/:topic'
+          element={
+            <ProtectedRoute
+              element={<TableView userId={auth.currentUser?.uid} />}
+            />
+          }
+        />
         <Route
           path='/report-problem'
           element={
