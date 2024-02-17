@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./Table.css";
 import {
   TableRow,
   TableCell,
@@ -15,9 +16,34 @@ const StyledTableRow = styled(TableRow)`
   }
 `;
 
+const VibratingIconButton = styled(IconButton)`
+  transition: transform 0.3s;
+
+  &:hover {
+    animation: vibrate 0.3s infinite;
+  }
+
+  @keyframes vibrate {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-3px);
+    }
+    50% {
+      transform: translateX(0);
+    }
+    75% {
+      transform: translateX(3px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+`;
+
 const RowQues = ({
   id,
-  serialNo,
   ques,
   url,
   note,
@@ -28,10 +54,16 @@ const RowQues = ({
   const [isChecked, setIsChecked] = useState(status);
   const [isEditing, setIsEditing] = useState(false);
   const [noteValue, setNoteValue] = useState(note);
+  const [isStrike, setIsStriked] = useState(status);
+
+  useEffect(() => {
+    setIsStriked(status);
+  }, [status]);
 
   const handleCheckboxChange = () => {
     const newStatus = !isChecked;
     setIsChecked(newStatus);
+    setIsStriked(newStatus);
     onStatusChange(id, newStatus);
   };
 
@@ -44,6 +76,11 @@ const RowQues = ({
     onNoteSave(id, noteValue);
   };
 
+  const handleRocketClick = () => {
+    // Move the rocket up here (e.g., change its position)
+    window.open(url, "_blank"); // Open a new page
+  };
+
   return (
     <StyledTableRow key={id}>
       <TableCell align='center'>
@@ -54,12 +91,12 @@ const RowQues = ({
           inputProps={{ "aria-label": "controlled" }}
         />
       </TableCell>
-      <TableCell>{ques}</TableCell>
+      <TableCell className={isStrike ? "strike" : ""}>{ques}</TableCell>
       <TableCell align='center'>
         <a href={url} target='_blank' rel='noopener noreferrer'>
-          <IconButton aria-label='rocket'>
+          <VibratingIconButton aria-label='rocket' onClick={handleRocketClick}>
             <MdRocket />
-          </IconButton>
+          </VibratingIconButton>
         </a>
       </TableCell>
       <TableCell align='center'>
@@ -77,7 +114,6 @@ const RowQues = ({
               value={noteValue}
               InputProps={{
                 readOnly: true,
-                disableUnderline: true,
               }}
             />
           </div>
