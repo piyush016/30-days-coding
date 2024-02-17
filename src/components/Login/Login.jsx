@@ -38,8 +38,6 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    console.log("Values:", values);
-
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then((res) => {
         setShowAlert(true);
