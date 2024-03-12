@@ -77,8 +77,7 @@ const RowQues = ({
   };
 
   const handleRocketClick = () => {
-    // Move the rocket up here (e.g., change its position)
-    window.open(url, "_blank"); // Open a new page
+    window.open(url, "_blank");
   };
 
   return (

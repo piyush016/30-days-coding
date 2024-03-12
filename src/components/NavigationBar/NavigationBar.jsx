@@ -13,11 +13,11 @@ const NavigationBar = ({ isLoggedIn }) => {
 
   return (
     <div>
-      <div className="nav-container">
-        <ul className="nav-menu">
-          <li className="nav-item">
+      <div className='nav-container'>
+        <ul className='nav-menu'>
+          <li className='nav-item'>
             <NavLink
-              to="/report-problem"
+              to='/report-problem'
               className={click ? "nav-items active" : "nav-items"}
               onClick={click ? handleClick : null}
             >
@@ -25,9 +25,9 @@ const NavigationBar = ({ isLoggedIn }) => {
             </NavLink>
           </li>
 
-          <li className="nav-item">
+          <li className='nav-item'>
             <NavLink
-              to="/topic"
+              to='/topic'
               className={click ? "nav-items active" : "nav-items"}
               onClick={click ? handleClick : null}
             >
@@ -35,9 +35,9 @@ const NavigationBar = ({ isLoggedIn }) => {
             </NavLink>
           </li>
 
-          <li className="nav-item">
+          <li className='nav-item'>
             <NavLink
-              to="/"
+              to='/'
               className={click ? "nav-items active" : "nav-items"}
               onClick={click ? handleClick : null}
             >
@@ -45,10 +45,10 @@ const NavigationBar = ({ isLoggedIn }) => {
             </NavLink>
           </li>
 
-          <li className="nav-item">
+          <li className='nav-item'>
             {isLoggedIn ? (
               <NavLink
-                to="/profile"
+                to='/profile'
                 className={click ? "nav-items active" : "nav-items"}
                 onClick={click ? handleClick : null}
               >
@@ -56,7 +56,7 @@ const NavigationBar = ({ isLoggedIn }) => {
               </NavLink>
             ) : (
               <NavLink
-                to="/login"
+                to='/login'
                 className={click ? "nav-items active" : "nav-items"}
                 onClick={click ? handleClick : null}
               >
@@ -65,9 +65,9 @@ const NavigationBar = ({ isLoggedIn }) => {
             )}
           </li>
 
-          <li className="nav-item">
+          <li className='nav-item'>
             <NavLink
-              to="/about"
+              to='/about'
               className={click ? "nav-items active" : "nav-items"}
               onClick={click ? handleClick : null}
             >

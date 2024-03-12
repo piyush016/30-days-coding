@@ -42,12 +42,11 @@ const Profile = ({ userId }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
-    // Retrieve user data from Firestore database
     const userDocRef = doc(db, "users", userId);
     const unsubscribe = onSnapshot(userDocRef, (snapshot) => {
       const data = snapshot.data();
       setUserData(data);
-      setFormValues(data || {}); // Set formValues as data or an empty object if data is undefined
+      setFormValues(data || {});
       setProfilePicture(data?.profilePicture);
     });
     return () => unsubscribe();
@@ -59,7 +58,6 @@ const Profile = ({ userId }) => {
       setUploading(true);
       const storageRef = ref(storage, `profilePictures/${userId}`);
 
-      // Delete previous profile picture if exists
       if (userData?.profilePicture) {
         const prevProfilePicRef = ref(storage, userData.profilePicture);
         await deleteObject(prevProfilePicRef);
@@ -81,7 +79,6 @@ const Profile = ({ userId }) => {
 
   const handleDeleteProfilePicture = async () => {
     if (profilePicture) {
-      // Delete the current profile picture
       const profilePictureRef = ref(storage, profilePicture);
       await deleteObject(profilePictureRef);
       setProfilePicture(null);
@@ -99,11 +96,10 @@ const Profile = ({ userId }) => {
     e.preventDefault();
 
     if (!editMode) {
-      setEditMode(true); // Enable edit mode to allow changes
+      setEditMode(true);
       return;
     }
 
-    // Update user data in Firestore database
     const userDocRef = doc(db, "users", userId);
     await setDoc(userDocRef, formValues);
     setUserData(formValues);
@@ -113,9 +109,9 @@ const Profile = ({ userId }) => {
 
   const handleEditMode = () => {
     if (!editMode) {
-      setFormValues(userData); // Restore original form values when entering edit mode
+      setFormValues(userData);
     }
-    setEditMode(!editMode); // Toggle edit mode
+    setEditMode(!editMode);
   };
 
   const handleDeleteAccount = async () => {
@@ -126,11 +122,8 @@ const Profile = ({ userId }) => {
     setDeleteDialogOpen(false);
 
     try {
-      // Delete user document from Firestore
       const userDocRef = doc(db, "users", userId);
       await deleteDoc(userDocRef);
-
-      // Delete user authentication record
       const user = auth.currentUser;
       await user.delete();
 

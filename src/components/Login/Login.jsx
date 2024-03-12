@@ -65,7 +65,7 @@ const Login = () => {
   // Alert
   useEffect(() => {
     const alertLoginSuccess = () => {
-      toast.success("Login Successful!", {
+      toast.success("Login successful!", {
         position: "top-left",
         autoClose: 3000,
         hideProgressBar: false,

@@ -110,7 +110,6 @@ const TableView = ({ userId }) => {
 
   const updateUserQuestions = async (userId, updatedQuestions) => {
     try {
-      // Extract only the necessary fields for each question
       const simplifiedQuestions = updatedQuestions.map(
         ({ id, status, note }) => ({
           id,

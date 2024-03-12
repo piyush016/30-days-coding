@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Typography, Box } from "@mui/material";
 import IconTextField from "../IconTextField/IconTextField";
 
-import { auth } from "../../firebase"; // Assuming you've exported auth from your firebase.js file
+import { auth } from "../../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 
 import { toast } from "react-toastify";
@@ -24,7 +24,6 @@ const ForgotPassword = () => {
       })
       .catch((error) => {
         alertError(error);
-        console.error("Error sending password reset email:", error);
       });
   };
 
@@ -56,7 +55,7 @@ const ForgotPassword = () => {
 
   return (
     <Box
-      className="container"
+      className='container'
       sx={{
         maxWidth: "500px",
         mx: "auto",
@@ -69,28 +68,28 @@ const ForgotPassword = () => {
       }}
     >
       {resetEmailSent ? (
-        <Typography variant="h3" align="center">
+        <Typography variant='h3' align='center'>
           Password reset email sent. Please check your email.
         </Typography>
       ) : (
         <>
-          <Typography variant="h3">
+          <Typography variant='h3'>
             <b>Forgot Password?</b>
           </Typography>
-          <Typography variant="h4" style={{ marginBottom: 20 }}>
+          <Typography variant='h4' style={{ marginBottom: 20 }}>
             No worries!
           </Typography>
           <IconTextField
-            label="Email"
-            type="email"
-            variant="outlined"
+            label='Email'
+            type='email'
+            variant='outlined'
             iconStart={<AccountCircle sx={{ color: "#fa2185" }} />}
             value={email}
             onChange={handleEmailChange}
           />
 
-          <div className="panel pink">
-            <button className="btn2" onClick={handleResetPassword}>
+          <div className='panel pink'>
+            <button className='btn2' onClick={handleResetPassword}>
               Reset Button
             </button>
           </div>

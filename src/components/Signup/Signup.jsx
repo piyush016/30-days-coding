@@ -93,9 +93,8 @@ const Signup = () => {
     event.preventDefault();
   };
 
-  // Alert
   const alertSignupSuccess = () => {
-    toast.success("Sign up Successful!", {
+    toast.success("Sign up successful!", {
       position: "top-left",
       autoClose: 3000,
       hideProgressBar: false,

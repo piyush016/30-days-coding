@@ -40,7 +40,6 @@ function ProtectedRoute({ element, path }) {
       setLoading(false);
     });
 
-    // Clean up the subscription
     return () => {
       unsubscribe();
     };
@@ -116,7 +115,6 @@ function App() {
       setIsLoggedIn(!!user);
     });
 
-    // Clean up the subscription
     return () => {
       unsubscribe();
     };

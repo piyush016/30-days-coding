@@ -1,11 +1,7 @@
 # dependencies
 /node_modules
-src/firebase.jsx
-/.pnp
-.pnp.js
-
-# testing
-/coverage
+/src/firebase.jsx
+/src/Signup/data.js
 
 # production
 /build
@@ -16,7 +12,3 @@ src/firebase.jsx
 .env.development.local
 .env.test.local
 .env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
